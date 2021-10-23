@@ -19,9 +19,14 @@ opt.on('-y')
 opt.on('-m')
 opt.parse!(ARGV)
 
-ARGV = [current_year.to_s,current_month.to_s] if ARGV.empty?
-target_year = ARGV[0]
-target_month = ARGV[1]
+if ARGV.empty?
+  argument = [current_year.to_s,current_month.to_s]
+else
+  argument = ARGV
+end
+
+target_year = argument[0]
+target_month = argument[1]
 
 last_date = Date.new(target_year.to_i, target_month.to_i, -1).strftime('%d')
 
@@ -44,7 +49,7 @@ print ' ' * first_day_date * 3
 (1..last_date.to_i).each do |date|
   date < 10 ? pre_space = ' ' : pre_space = ''
   # 土曜日だったら
-  if Date.new(target_year.to_i,target_month.to_i,date).wday.to_i == 6
+  if Date.new(target_year.to_i,target_month.to_i,date).wday.to_i == 6 || date == last_date.to_i
     puts pre_space + date.to_s + ' '
   else
     print pre_space + date.to_s + ' '
