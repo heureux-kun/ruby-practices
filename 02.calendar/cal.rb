@@ -42,10 +42,11 @@ print ' ' * firstWDay * 3
 
 (1..lastDay).each do |day|
   day < 10 ? dayPreSpace = ' ' : dayPreSpace = ''
+  
   # 土曜日だったら
   if Date.new(targetYear,targetMonth,day).wday.to_i == 6 || day == lastDay
-    puts dayPreSpace + day.to_s + ' '
+    puts day.to_s.rjust(2)  + ' '
   else
-    print dayPreSpace + day.to_s + ' '
+    print day.to_s.rjust(2)  + ' '
   end
 end
