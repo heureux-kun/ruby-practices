@@ -3,55 +3,49 @@
 require 'optparse'
 require 'date'
 
-target_year = ''
-target_month = ''
-current_year = Date.today.year
-current_month = Date.today.month
-
 days = ['日','月','火','水','木','金','土']
-last_date = ''
-cal_title = ''
-day_header = ''
 
-# オプションの値を取得
 opt = OptionParser.new
 opt.on('-y')
 opt.on('-m')
 opt.parse!(ARGV)
 
 if ARGV.empty?
-  argument = [current_year.to_s,current_month.to_s]
+  targetYear = Date.today.year.to_i
+  targetMonth = Date.today.month.to_i
 else
-  argument = ARGV
+  arguments = ARGV
+  targetYear = arguments[0].to_i
+  targetMonth = arguments[1].to_i
 end
 
-target_year = argument[0]
-target_month = argument[1]
-
-last_date = Date.new(target_year.to_i, target_month.to_i, -1).strftime('%d')
+lastDay = Date.new(targetYear, targetMonth, -1)
+lastDay = lastDay.day
+puts lastDay
 
 # カレンダータイトル
-cal_title.concat('      ' + target_month + '月 ' + target_year)
+puts "      #{targetYear}年#{targetMonth}月"
 
 # 曜日の表示
-days.each do |day|
-  day_header.concat(day + ' ')
+days.each_with_index do |day, index|
+  if index == 6
+    puts "#{day} "
+  else
+    print "#{day} "
+  end
 end
-
-puts cal_title
-puts day_header
 
 # 日付部分の出力
 # 初日の曜日の数字を確認し、数字x3スペース開ける
-first_day_date = Date.new(target_year.to_i,target_month.to_i,1).wday
-print ' ' * first_day_date * 3
+firstWDay = Date.new(targetYear,targetMonth,1).wday
+print ' ' * firstWDay * 3
 
-(1..last_date.to_i).each do |date|
-  date < 10 ? pre_space = ' ' : pre_space = ''
+(1..lastDay).each do |day|
+  day < 10 ? dayPreSpace = ' ' : dayPreSpace = ''
   # 土曜日だったら
-  if Date.new(target_year.to_i,target_month.to_i,date).wday.to_i == 6 || date == last_date.to_i
-    puts pre_space + date.to_s + ' '
+  if Date.new(targetYear,targetMonth,day).wday.to_i == 6 || day == lastDay
+    puts dayPreSpace + day.to_s + ' '
   else
-    print pre_space + date.to_s + ' '
+    print dayPreSpace + day.to_s + ' '
   end
 end
