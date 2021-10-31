@@ -44,7 +44,7 @@ print ' ' * firstWDay * 3
   day < 10 ? dayPreSpace = ' ' : dayPreSpace = ''
   
   # 土曜日だったら
-  if Date.new(targetYear,targetMonth,day).wday.to_i == 6 || day == lastDay
+  if Date.new(targetYear,targetMonth,day).saturday? || day == lastDay
     puts day.to_s.rjust(2)  + ' '
   else
     print day.to_s.rjust(2)  + ' '
