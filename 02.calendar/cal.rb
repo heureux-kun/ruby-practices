@@ -11,42 +11,24 @@ opt.on('-m')
 opt.parse!(ARGV)
 
 if ARGV.empty?
-  targetYear = Date.today.year.to_i
-  targetMonth = Date.today.month.to_i
+  target_year = Date.today.year.to_i
+  target_month = Date.today.month.to_i
 else
-  arguments = ARGV
-  targetYear = arguments[0].to_i
-  targetMonth = arguments[1].to_i
+  target_year = ARGV[0].to_i
+  target_month = ARGV[1].to_i
 end
 
-lastDay = Date.new(targetYear, targetMonth, -1)
-lastDay = lastDay.day
-puts lastDay
+last_day = Date.new(target_year, target_month, -1)
+last_day = last_day.day
 
-# カレンダータイトル
-puts "      #{targetYear}年#{targetMonth}月"
+puts "      #{target_year}年#{target_month}月"
 
-# 曜日の表示
-days.each_with_index do |day, index|
-  if index == 6
-    puts "#{day} "
-  else
-    print "#{day} "
-  end
-end
+puts '日 月 火 水 木 金 土'
 
-# 日付部分の出力
-# 初日の曜日の数字を確認し、数字x3スペース開ける
-firstWDay = Date.new(targetYear,targetMonth,1).wday
-print ' ' * firstWDay * 3
+first_wday = Date.new(target_year,target_month,1).wday
+print ' ' * first_wday * 3
 
-(1..lastDay).each do |day|
-  day < 10 ? dayPreSpace = ' ' : dayPreSpace = ''
-  
-  # 土曜日だったら
-  if Date.new(targetYear,targetMonth,day).saturday? || day == lastDay
-    puts day.to_s.rjust(2)  + ' '
-  else
-    print day.to_s.rjust(2)  + ' '
-  end
+(1..last_day).each do |day|
+  print day.to_s.rjust(2)
+  print "\n" if Date.new(targetYear,targetMonth,day).saturday? || day == lastDay
 end
