@@ -1,9 +1,7 @@
-#!/Users/heureux/.rbenv/versions/2.6.5/bin/ruby
+#!/usr/bin/env ruby
 
 require 'optparse'
 require 'date'
-
-days = ['日','月','火','水','木','金','土']
 
 opt = OptionParser.new
 opt.on('-y')
@@ -18,8 +16,7 @@ else
   target_month = ARGV[1].to_i
 end
 
-last_day = Date.new(target_year, target_month, -1)
-last_day = last_day.day
+last_day = Date.new(target_year, target_month, -1).day
 
 puts "      #{target_year}年#{target_month}月"
 
@@ -30,5 +27,6 @@ print ' ' * first_wday * 3
 
 (1..last_day).each do |day|
   print day.to_s.rjust(2)
-  print "\n" if Date.new(targetYear,targetMonth,day).saturday? || day == lastDay
+  print ' '
+  print "\n" if Date.new(target_year, target_month, day).saturday? || day == last_day
 end
