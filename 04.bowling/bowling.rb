@@ -25,7 +25,7 @@ point = 0
 current_status = ''
 prev_status = ''
 frames.each_with_index do |frame, index|
-  current_status = 
+  current_status =
     if frame[0] == 10
       'strike'
     elsif frame.sum == 10
@@ -34,31 +34,25 @@ frames.each_with_index do |frame, index|
       ''
     end
 
+  point += frame.sum
   if index < 9
     point +=
       case current_status
       when 'spare'
-        # 次の1投の点を加算する
-        frame.sum + frames[index+1][0]
-        # binding.irb
+        frames[index + 1][0]
       when 'strike'
-        # 次の2投の点を加算する
         # 次がスペアだった場合
-        if frames[index+1][0] != 10
-          frame.sum + frames[index+1].sum
+        if frames[index + 1][0] != 10
+          frames[index + 1].sum
         # 次がストライクだった場合
         else
-          frame.sum + frames[index+1][0] + frames[index+2][0]
+          frames[index + 1][0] + frames[index + 2][0]
         end
       else
-        frame.sum
+        0
       end
-  else
-    point += frame.sum
   end
 
   prev_status = current_status
-  # puts "#{index+1}回目"
-  # binding.irb
 end
 puts point
