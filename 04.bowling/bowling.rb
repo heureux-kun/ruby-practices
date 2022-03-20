@@ -22,9 +22,11 @@ shots.each_slice(2) do |s|
 end
 
 point = 0
+count = 0
 prev_status = ''
+prev_prev_status = ''
 frames.each do |frame|
-  # binding.pry
+  count += 1
   point +=
     case prev_status
     when 'spare'
@@ -35,10 +37,18 @@ frames.each do |frame|
       frame.sum
     end
 
+  # 前々回と前回がストライクだった時、さらにframe[0]を加算する
+  if prev_prev_status == 'strike' && prev_status == 'strike' && count != 11
+    point += frame[0]
+  end
+
+  # binding.irb
+
+  prev_prev_status = prev_status
   prev_status =
-    if frame[0] == 10 # strike
+    if frame[0] == 10
       'strike'
-    elsif frame.sum == 10 # spare
+    elsif frame.sum == 10
       'spare'
     else
       ''
