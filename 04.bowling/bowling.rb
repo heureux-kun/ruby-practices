@@ -15,40 +15,36 @@ scores.each do |s|
   end
 end
 
-# 数を2つずつに分けてframes配列に入れている
 frames = []
 shots.each_slice(2) do |s|
   frames << s
 end
 
+frames = shots.each_slice(2).to_a
+
 point = 0
-current_status = ''
 frames.each_with_index do |frame, index|
-  current_status =
-    if frame[0] == 10
-      'strike'
-    elsif frame.sum == 10
-      'spare'
-    else
-      ''
-    end
-
   point += frame.sum
-  if index < 9
-    point +=
-      case current_status
-      when 'spare'
-        frames[index + 1][0]
-      when 'strike'
-        if frames[index + 1][0] == 10
-          frames[index + 1][0] + frames[index + 2][0]
-        else
-          frames[index + 1].sum
-        end
-      else
-        0
-      end
-  end
 
+  is_strike = frame[0] == 10
+  is_spare = !is_strike && (frame.sum == 10)
+  next_frame = frames[index + 1]
+  after_next_frame = frames[index + 2]
+
+  next unless index < 9
+
+  point +=
+    if is_spare
+      next_frame[0]
+    elsif is_strike
+      if next_frame[0] == 10
+        next_frame[0] + after_next_frame[0]
+      else
+        next_frame.sum
+      end
+    else
+      0
+    end
 end
+
 puts point
