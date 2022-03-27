@@ -23,7 +23,6 @@ end
 
 point = 0
 current_status = ''
-prev_status = ''
 frames.each_with_index do |frame, index|
   current_status =
     if frame[0] == 10
@@ -41,18 +40,15 @@ frames.each_with_index do |frame, index|
       when 'spare'
         frames[index + 1][0]
       when 'strike'
-        # 次がスペアだった場合
-        if frames[index + 1][0] != 10
-          frames[index + 1].sum
-        # 次がストライクだった場合
-        else
+        if frames[index + 1][0] == 10
           frames[index + 1][0] + frames[index + 2][0]
+        else
+          frames[index + 1].sum
         end
       else
         0
       end
   end
 
-  prev_status = current_status
 end
 puts point
