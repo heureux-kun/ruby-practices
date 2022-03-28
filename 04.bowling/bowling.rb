@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'pry'
-
 score = ARGV[0]
 scores = score.split(',')
 shots = []
@@ -13,11 +11,6 @@ scores.each do |s|
   else
     shots << s.to_i
   end
-end
-
-frames = []
-shots.each_slice(2) do |s|
-  frames << s
 end
 
 frames = shots.each_slice(2).to_a
